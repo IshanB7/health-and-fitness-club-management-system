@@ -37,7 +37,7 @@ function NavBar({username,setIsLoggedIn}) {
     case 'trainer':
       containers = (
         <>
-          <Container className='NavLinks' onClick={() => handleClick("/schedule")}>
+          <Container className='NavLinks' onClick={() => handleClick("/")}>
             <p>Schedule Management</p>
           </Container>
         </>
@@ -47,7 +47,7 @@ function NavBar({username,setIsLoggedIn}) {
     case 'admin':
       containers = (
         <>
-          <Container className='NavLinks' onClick={() => handleClick("/rooms")}>
+          <Container className='NavLinks' onClick={() => handleClick("/")}>
             <p>Room Booking Management</p>
           </Container>
           <Container className='NavLinks' onClick={() => handleClick("/equipment")}>
@@ -60,6 +60,8 @@ function NavBar({username,setIsLoggedIn}) {
       )
   }
 
+  let trainer = localStorage.getItem('account_type') === 'trainer';
+
   return (
     <>
       <Navbar bg="dark" expand="lg">
@@ -67,6 +69,14 @@ function NavBar({username,setIsLoggedIn}) {
           <Button variant="outline-success" onClick={handleShow}>
             Navigation
           </Button>
+        </Container>
+        <Container style={{marginLeft: '0px', display: 'flex', alignItems: 'center'}}>
+          {trainer && (
+          <>
+            <input type='text' style={{marginLeft: '50%'}}/>
+            <Button>Search</Button>
+          </>
+          )}
         </Container>
       </Navbar>
       <Offcanvas show={show} onHide={handleClose} style={{backgroundColor: '#343a40', color: 'white'}}>

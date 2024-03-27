@@ -20,19 +20,15 @@ function App() {
 
   return (
     <Router>
-      <Routes>
-        <Route path="/" element={
-          isLoggedIn ? (
-            <>
-              <NavBar username={localStorage.getItem('username')} setIsLoggedIn={setIsLoggedIn}/>
-              <FitnessGoalsPage username={localStorage.getItem('username')} />
-            </>
-          ) : (
-            <Login setIsLoggedIn={setIsLoggedIn}/>
-          )
-        } />
-      </Routes>
-      <Navigate to="/" />
+      {isLoggedIn && <NavBar username={localStorage.getItem('username')} setIsLoggedIn={setIsLoggedIn} />}
+      {isLoggedIn ? (
+        <Routes>
+          <Route exact path="/" element={<Dashboard />} />
+          <Route path="*" element={<Navigate to="/" />} />
+        </Routes>
+      ): (
+        <Login setIsLoggedIn={setIsLoggedIn}/>
+      )}
     </Router>
   );
 }

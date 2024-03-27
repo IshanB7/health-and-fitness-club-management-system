@@ -1,5 +1,8 @@
-INSERT INTO Users VALUES 
-('craig', 'abc', 'member'),
-('daniel', '123', 'member'),
-('trainer', '123', 'trainer')
+INSERT INTO Members VALUES
+('craig', 'abc'),
+('daniel', '123')
+;
+
+INSERT INTO Trainers VALUES
+('trainer', '123')
 ;
