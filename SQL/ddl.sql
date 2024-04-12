@@ -1,18 +1,22 @@
+DROP TABLE IF EXISTS Members CASCADE;
 CREATE TABLE Members (
     username VARCHAR(50) PRIMARY KEY,
     passwrd VARCHAR(50) NOT NULL
 );
 
+DROP TABLE IF EXISTS Trainers CASCADE;
 CREATE TABLE Trainers (
     username VARCHAR(50) PRIMARY KEY,
     passwrd VARCHAR(50) NOT NULL
 );
 
+DROP TABLE IF EXISTS Admin CASCADE;
 CREATE TABLE Admin (
     username VARCHAR(50) PRIMARY KEY,
     passwrd VARCHAR(50) NOT NULL
 );
 
+DROP TABLE IF EXISTS TrainerTimes CASCADE;
 CREATE TABLE TrainerTimes (
     id SERIAL PRIMARY KEY,
     username VARCHAR(50) NOT NULL,
@@ -25,6 +29,7 @@ CREATE TABLE TrainerTimes (
     FOREIGN KEY (username) REFERENCES Trainers(username)
 );
 
+DROP TABLE IF EXISTS Payments CASCADE;
 CREATE TABLE Payments (
     id INTEGER NOT NULL,
     payfrom VARCHAR(50) NOT NULL,
@@ -36,6 +41,7 @@ CREATE TABLE Payments (
     FOREIGN KEY (id) REFERENCES TrainerTimes(id)
 );
 
+DROP TABLE IF EXISTS Registered CASCADE;
 CREATE TABLE Registered (
     id INTEGER NOT NULL,
     username VARCHAR(50) NOT NULL,
@@ -43,6 +49,7 @@ CREATE TABLE Registered (
     FOREIGN KEY (username) REFERENCES Members(username)
 );
 
+DROP TABLE IF EXISTS Equipment CASCADE;
 CREATE TABLE Equipment (
     equipment_id SERIAL PRIMARY KEY,
     equipment_name VARCHAR(100) NOT NULL,
@@ -50,6 +57,7 @@ CREATE TABLE Equipment (
     equipment_used VARCHAR(50) NOT NULL
 );
 
+DROP TABLE IF EXISTS FitnessGoals CASCADE;
 CREATE TABLE FitnessGoals (
     goal_id SERIAL PRIMARY KEY,
     username VARCHAR(50),
@@ -58,6 +66,7 @@ CREATE TABLE FitnessGoals (
     FOREIGN KEY (username) REFERENCES Members(username)
 );
 
+DROP TABLE IF EXISTS HealthMetrics CASCADE;
 CREATE TABLE HealthMetrics (
     metric_id SERIAL PRIMARY KEY,
     username VARCHAR(50),
@@ -71,6 +80,7 @@ CREATE TABLE HealthMetrics (
     FOREIGN KEY (username) REFERENCES Members(username)
 );
 
+DROP TABLE IF EXISTS ExerciseRoutines CASCADE;
 CREATE TABLE ExerciseRoutines (
     day VARCHAR(50),
     exercise_1 VARCHAR(100),
