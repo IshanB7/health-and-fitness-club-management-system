@@ -1,5 +1,3 @@
-// FitnessGoalsPage.jsx
-
 import React, { useState, useEffect } from 'react';
 import { Container, Form, Button, Card } from 'react-bootstrap';
 
@@ -13,8 +11,6 @@ function FitnessGoalsPage({ username }) {
   }, []);
 
   const fetchGoals = async () => {
-    // Fetch goals for the user from the server
-    // You'll need to implement this endpoint on your server
     try {
       const response = await fetch(`http://localhost:3000/goals/${username}`);
       if (response.ok) {
@@ -32,19 +28,16 @@ function FitnessGoalsPage({ username }) {
     e.preventDefault();
 
     try {
-      // Send new goal to the server to be saved
       const response = await fetch('http://localhost:3000/goals', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ username, goal: newGoal })
+        body: JSON.stringify({ username: username, goal: newGoal })
       });
 
       if (response.ok) {
-        // Refresh goals list
         fetchGoals();
-        // Clear input field
         setNewGoal('');
       } else {
         console.error('Failed to add goal');
@@ -56,7 +49,6 @@ function FitnessGoalsPage({ username }) {
 
   const handleComplete = async (goalId) => {
     try {
-      // Send request to mark goal as completed to the server
       await fetch(`http://localhost:3000/goals/${goalId}`, {
         method: 'PUT',
         headers: {
@@ -64,7 +56,6 @@ function FitnessGoalsPage({ username }) {
         }
       });
 
-      // Refresh goals list
       fetchGoals();
     } catch (error) {
       console.error('Error marking goal as completed:', error);
@@ -96,13 +87,14 @@ function FitnessGoalsPage({ username }) {
             <h5>Current Goals:</h5>
             <ul>
               {goals.map((goal) => (
-                <li key={goal.id}>
-                  {goal.text}
+                <li key={goal.goal_id}>
+                  {goal.goal}
                   <Button
                     variant="success"
                     size="sm"
-                    onClick={() => handleComplete(goal.id)}
+                    onClick={() => handleComplete(goal.goal_id)}
                     className="ms-2"
+                    disabled={goal.completed} // Disables the button when the goal is completed
                   >
                     Complete
                   </Button>

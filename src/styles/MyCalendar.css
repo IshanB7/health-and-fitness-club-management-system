@@ -50,9 +50,3 @@
 .rbc-off-range-bg {
     background-color: black;
 }
-  
-/* CSS to hide the "Today" button */
-.rbc-btn-group > button:first-child {
-    display: none;
-}
-  

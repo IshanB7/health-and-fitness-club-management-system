@@ -1,5 +1,7 @@
 import React from 'react';
 import MyCalendar from '../partials/MyCalendar';
+import Rooms from '../partials/Rooms';
+import MemberDashboard from './MemberDashboard';
 
 function Dashboard() {
     let dash;
@@ -8,7 +10,7 @@ function Dashboard() {
         case 'member':
             dash = (
                 <>
-
+                    <MemberDashboard username={localStorage.getItem('username')} />
                 </>
             );
             break;
@@ -24,7 +26,7 @@ function Dashboard() {
         case 'admin':
             dash = (
                 <>
-
+                    <Rooms />
                 </>
             );
             break;

@@ -1,9 +1,12 @@
-import React from 'react';
-import { Navbar, Container, Button, Offcanvas } from 'react-bootstrap';
+import React, { useState } from 'react';
+import { Navbar, Container, Button, Offcanvas, Modal } from 'react-bootstrap';
 import '../styles/NavBar.css'
 
 function NavBar({username,setIsLoggedIn}) {
-  const [show, setShow] = React.useState(false);
+  const [show, setShow] = useState(false);
+  const [search, setSearch] = useState('');
+  const [showModal, setShowModal] = useState(false);
+  const [modalResults, setModalResults] = useState([]);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -14,6 +17,28 @@ function NavBar({username,setIsLoggedIn}) {
   const handleLogout = () => {
     setIsLoggedIn(false);
     localStorage.setItem('isLoggedIn', 'false');
+  }
+
+  const handleSearch = async () => {
+    const response = await fetch(`http://localhost:3000/search?string=${encodeURIComponent(search)}`);
+    const results = await response.json();
+
+    if (response.ok) {
+      setModalResults(results);
+      handleShowModal();
+    }
+  }
+
+  const handleChange = (e) => {
+    setSearch(e.target.value);
+  }
+
+  const handleShowModal = () => {
+    setShowModal(true);
+  }
+
+  const handleHideModal = () => {
+    setShowModal(false);
   }
 
   let containers;
@@ -29,6 +54,12 @@ function NavBar({username,setIsLoggedIn}) {
           </Container>
           <Container className='NavLinks' onClick={() => handleClick("/schedule")}>
             <p>Schedule Management</p>
+          </Container>
+          <Container className='NavLinks' onClick={() => handleClick("/fitness-goals")}>
+            <p>Fitness Goals</p>
+          </Container>
+          <Container className='NavLinks' onClick={() => handleClick("/metrics")}>
+            <p>Health Metrics</p>
           </Container>
         </>
       );
@@ -54,7 +85,10 @@ function NavBar({username,setIsLoggedIn}) {
             <p>Equipment Booking Management</p>
           </Container>
           <Container className='NavLinks' onClick={() => handleClick("/classes")}>
-            <p>Classes Schedule Updating</p>
+            <p>Class Schedule Updating</p>
+          </Container>
+          <Container className='NavLinks' onClick={() => handleClick("/billing")}>
+            <p>Billing and Payment Processing</p>
           </Container>
         </>
       )
@@ -70,14 +104,10 @@ function NavBar({username,setIsLoggedIn}) {
             Navigation
           </Button>
         </Container>
-        <Container style={{marginLeft: '0px', display: 'flex', alignItems: 'center'}}>
-          {trainer && (
-          <>
-            <input type='text' style={{marginLeft: '50%'}}/>
-            <Button>Search</Button>
-          </>
-          )}
-        </Container>
+        {trainer && (<Container style={{marginLeft: '0px', display: 'flex', alignItems: 'center'}}>
+            <input type='text' style={{marginLeft: '50%'}} value={search} onChange={handleChange}/>
+            <Button onClick={handleSearch}>Search</Button>
+        </Container>)}
       </Navbar>
       <Offcanvas show={show} onHide={handleClose} style={{backgroundColor: '#343a40', color: 'white'}}>
         <Offcanvas.Header closeButton>
@@ -90,6 +120,30 @@ function NavBar({username,setIsLoggedIn}) {
           </Container>
         </Offcanvas.Body>
       </Offcanvas>
+
+      <Modal show={showModal} onHide={handleHideModal}>
+        <Modal.Header closeButton>
+          <Modal.Title>Search - "{search}"</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          {modalResults.length === 0 ? (
+            <p>No Results Found</p>
+          ): (
+            <ul className='list-group'>
+              {modalResults.length !== 0 && modalResults.map((result, index) => {
+                return (
+                  <li key={index} className='list-group-item'>
+                    {result.username}
+                  </li>
+                );
+              })}
+            </ul>
+          )}
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant='secondary' onClick={handleHideModal}>Close</Button>
+        </Modal.Footer>
+      </Modal>
     </>
   );
 };

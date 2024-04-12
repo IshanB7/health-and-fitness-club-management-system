@@ -16,9 +16,10 @@ function MyCalendar() {
         let results = [];
         for (let each of result) {
             results.push({
-                title: `${localStorage.getItem('username')}'s class`,
+                title: `${localStorage.getItem('username')} ` + (each.isgroup ? 'Group Class': (each.class ? 'Class': 'Availability')),
                 start: new Date(each.start_time),
-                end: new Date(each.end_time)
+                end: new Date(each.end_time),
+                class: each.class
             });
         }
         setEvents(results);
@@ -41,6 +42,8 @@ function MyCalendar() {
     }
 
     const handleRemove = async (event) => {
+        if (event.class || event.isgroup) return;
+
         const { start, end } = event;
         const response = await fetch('http://localhost:3000/trainer', {
             method: 'POST',
@@ -63,6 +66,38 @@ function MyCalendar() {
         fetchEvents();
     }, []);
     
+    const customToolbar = ({ label, onView, onNavigate }) => {
+        return (
+          <div className="rbc-toolbar">
+            <span className="rbc-btn-group">
+                <button type="button" onClick={() => onNavigate('PREV')}>{'<'}</button>
+                <button type="button" onClick={() => onNavigate('NEXT')}>{'>'}</button>
+            </span>
+            <span className="rbc-toolbar-label">{label}</span>
+            <span className="rbc-btn-group">
+              <button type="button" onClick={() => onView('month')}>Month</button>
+              <button type="button" onClick={() => onView('day')}>Day</button>
+            </span>
+          </div>
+        );
+    };
+
+    const eventStyle = (event) => {
+        let backgroundColor;
+        if (event.class || event.isgroup) {
+            backgroundColor = '#d67663';
+        } else {
+            backgroundColor = '#8bd973';
+        }
+
+        return {
+            style: {
+                backgroundColor,
+                textShadow: '0px 0px 5px black'
+            }
+        };
+    }
+
     return (
         <div style={{ height: '500px'}}>
             <Calendar 
@@ -78,6 +113,8 @@ function MyCalendar() {
                 onSelectSlot={handleSelect}
                 min={new Date().setHours(8,0,0)}
                 max={new Date().setHours(20,0,0)}
+                components={{toolbar: customToolbar}}
+                eventPropGetter={eventStyle}
             />
         </div>
     );
