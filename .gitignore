@@ -22,4 +22,5 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
-.report.docx
+report/report.docx
+.eslintrc.cjs
