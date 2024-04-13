@@ -39,6 +39,7 @@ CREATE TABLE Payments (
     FOREIGN KEY (payfrom) REFERENCES Members(username),
     FOREIGN KEY (payto) REFERENCES Trainers(username),
     FOREIGN KEY (id) REFERENCES TrainerTimes(id)
+    ON DELETE CASCADE
 );
 
 DROP TABLE IF EXISTS Registered CASCADE;
