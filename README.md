@@ -1,8 +1,18 @@
 # COMP3005 - Project V2
 
+## Group members
+- Ishan Bhalla, 101256630
+- Shivam Khanna, 101268691
+
+## Requirement
+- Have node and npm installed
+
 ## Instructions
 - git clone https://github.com/IshanB7/health-and-fitness-club-management-system.git
 - npm install
+- Create a database with name "3005project" on pgAdmin
+- Create tables with "SQL/ddl.sql" and populate data with "SQL/dml.sql"
+- Change connection parameters in "src/pool.js" if needed
 - "npm run dev" to start frontend
 - "node src/server.js" to start backend
 - "localhost:5173" in browser to get started (port 5173 by default, might be different)
