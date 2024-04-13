@@ -27,7 +27,8 @@ function Schedule() {
                 id: modalTrainer.id,
                 amount: payment(modalTrainer.isgroup),
                 add: bool,
-                count: modalTrainer.count
+                count: modalTrainer.count,
+                room: modalTrainer.room
             })
         });
 

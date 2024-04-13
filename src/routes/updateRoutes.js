@@ -90,7 +90,7 @@ router.put('/update-password', (req, res) => {
 });
 
 router.post('/payment', (req, res) => {
-    const { member, trainer, id, amount, add, count } = req.body;
+    const { member, trainer, id, amount, add, count, room } = req.body;
     
     if (add) {
         pool.query('SELECT * FROM Payments WHERE id = $1 AND payfrom = $2', [id, member], (error, results) => {
@@ -116,7 +116,8 @@ router.post('/payment', (req, res) => {
             pool.query('DELETE FROM Registered WHERE id = $1 AND username = $2', [id, member], (error, results) => {
                 if (error) throw error;
                 const cls = (count - 1) === 0 ? false: true;
-                pool.query('UPDATE TrainerTimes SET class = $1, count = $2 WHERE id = $3', [cls, count-1, id], (error, results) => {
+                const checkRoom = (count - 1) === 0 ? null: room;
+                pool.query('UPDATE TrainerTimes SET class = $1, count = $2, room= $3 WHERE id = $4', [cls, count-1, checkRoom, id], (error, results) => {
                     if (error) throw error;
                     res.status(200).send();
                 });
