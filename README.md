@@ -1,8 +1,4 @@
-# COMP3005 - Project V2
-
-## Group members
-- Ishan Bhalla, 101256630
-- Shivam Khanna, 101268691
+# Health and Fitness Club Management System
 
 ## Requirements
 - Have node and npm installed
